@@ -118,7 +118,7 @@ class Roman {
      * @param string $romanNumber Reference roman number
      */
     function __construct(string $romanNumber) {
-        $this->setRomanNumber($romanNumber);
+        $this->setNumber($romanNumber);
     }
 
     /**
@@ -132,7 +132,7 @@ class Roman {
      *
      * @return void
      */
-    public function setRomanNumber(string $romanNumber): void {
+    public function setNumber(string $romanNumber): void {
         $roman = strtoupper($romanNumber);
     
         if (! $this->validatesRomanNumber($romanNumber)) {
@@ -280,8 +280,8 @@ class Roman {
         // For "V". "V" will not be as previous character of another character with a major value
 
         // For "X"
-        if (preg_match('/XL[\w]*X/', $romanNumber)) {
-            echo "\n\n$romanNumber\n\n";
+        // We need to think in "XL[X|XX|XXX]IX" = 49 and XCIX[XC|X|XX|XXX]IX
+        if (preg_match('/XL^[X]*X/', $romanNumber)) {
             return false;
         }
         if (preg_match('/XC[\w]*X/', $romanNumber)) {
@@ -338,7 +338,7 @@ class Roman {
         }
         if (strpos($romanNumber, 'IX') > -1) {
             $decimalNumber -= 1;
-            $romanNumber = str_replace('I', '', $romanNumber);
+            $romanNumber = str_replace('IX', 'X', $romanNumber);
         }
 
         // V -> we can't have V as subtractor
@@ -346,11 +346,12 @@ class Roman {
         // X
         if (strpos($romanNumber, 'XL') > -1){
             $decimalNumber -= 10;
-            $romanNumber = str_replace('X', '', $romanNumber);            
+            $romanNumber = str_replace('XL', 'L', $romanNumber)   ;
         }
+
         if (strpos($romanNumber, 'XC') > -1) {
             $decimalNumber -= 10;
-            $romanNumber = str_replace('X', '', $romanNumber);
+            $romanNumber = str_replace('XC', 'C', $romanNumber);
         }
 
         // L -> we can't have V as subtractor
@@ -358,11 +359,11 @@ class Roman {
         // C
         if (strpos($romanNumber, 'CD') > -1) {
             $decimalNumber -= 100;
-            $romanNumber = str_replace('C', '', $romanNumber);
+            $romanNumber = str_replace('CD', 'D', $romanNumber);
         }
         if (strpos($romanNumber, 'CM') > -1) {
             $decimalNumber -= 100;
-            $romanNumber = str_replace('C', '', $romanNumber);
+            $romanNumber = str_replace('CM', 'M', $romanNumber);
         }
 
         // D -> we can't have D as subtractor
