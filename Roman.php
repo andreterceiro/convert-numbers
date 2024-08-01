@@ -323,7 +323,7 @@ class Roman {
      * We do not need to throw an exception here because we know that the setted decimal number
      * is a number that we can convert
      * 
-     * @returns string
+     * @return string
      */
     public function toDecimal(): string {
         $romanNumber = $this->getRomanNumber();
