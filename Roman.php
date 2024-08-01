@@ -107,41 +107,211 @@ class Roman {
      * @var string
      * @access private
      */
-    private string $roman;
+    private string $romanNumber;
 
     /**
      * Constructor
      * 
      * @access public
      * 
-     * @param int $roman Reference roman number
+     * @throws InvalidArgumentException Rethrows an exception if its receive an ivalid roman number
+     * 
+     * @param string $romanNumber Reference roman number
      */
-    function __construct(int $decimal) {
-        $this->decimal = $decimal;
+    function __construct(string $romanNumber) {
+        $this->setRoman($roman);
     }
 
     /**
-     * Validates and sets the roman number
+     * Validates (with another method) and sets the roman number
+     * 
+     * @throws InvalidArgumentException If the received roman is not a valid roman number
+     * 
+     * @access public
+     * 
+     * @param string $romanNumber The roman number character to be setted
      *
-     * @param int decimal
-     * 
-     * @access public 
-     * 
      * @return void
      */
-    public function setRoman(string $roman): void {
-        $this->roman = $roman;
+    public function setRomanNumber(string $romanNumber): void {
+        $roman = str_to_upper($romanNumber, $charset);
+    
+        if (! validatesRomanNumber($romanNumber)) {
+            throw new InvalidArgumentException("This is not a valid roman number");
+        }
+
+        $this->romanNumber = $romanNumber;
     }
 
     /**
-     * Returns the setted decimal
+     * Returns true if the passed roman number is valid
+     * 
+     * Access private? We need to test. Ok, then test the constructor or the setRoman method
+     * 
+     * @access private
+     * 
+     * @param string $romanNumber The roman number character to be validated
+     *
+     * @return bool
+     */
+    private function validatesRomanNumber(string $romanNumber): bool {
+        // We need only to accept valid characters
+        if (preg_match('/[^IVXLCDM]/', $romanNumber)) {
+            return false;
+        }
+
+        // But we still need to filter invalid combinations
+        // One thing that we need to think os that the characters with bigger values 
+        // need to come before the characters with lower value except in some especial cases
+        // 
+        // Examples:
+        // CI: 101
+        // XC: 90
+        // IC: Does not exists
+
+        // Let's start verifying the "I" character. Needs to be the last character except in the 
+        // case of IV or IX. The charcter in the verification will be the first caracter in the
+        // "or" part of the regex, like the "[IL]" part
+        if (preg_match('/[IL][IC][ID][IM]/', $romanNumber)) {
+            return false;
+        }
+
+        // Now we need to verify the "V" character
+        if (preg_match('/[VX][VL][VC][VD][VM]/', $romanNumber)) {
+            return false;
+        }
+
+        // Now we need to verify the "X" character. We do not need to verify again combinations that
+        // we already verified, like VX
+        if (preg_match('/[XD][XM]/', $romanNumber)) {
+            return false;
+        }
+
+        // Now we need do verify the "L" character
+        if (preg_match('/[LC][VD][LM]/', $romanNumber)) {
+            return false;
+        }
+
+        // Now we need do verify the "C" character. We can have all valid combinations with "C"
+        // as the first character. Let's make a draft to verify:
+        // CI: 101
+        // CII: 102 (we will only verify this first repetition of characters)
+        // CV: 105
+        // CX: 110
+        // CL: 150
+        // CC: 200
+        // CD: 400
+        // CM: 900
+        //
+        // And ICX? Is invalid! We already filtered in "I" verification :)
+
+        // Now we need to verify the "D" character
+        if (preg_match('/[DM]/', $romanNumber)) {
+            return false;
+        }
+
+        // Now we need to verify the "M" character. We can have all valid combinations with "M"
+        // as first character. Let's make a draft to verify:
+        // MI: 1001
+        // MII: 1002
+        // MV: 1005
+        // MX: 1010
+        // ML: 1050
+        // MC: 1100
+        // MD: 1500
+        // MM: 2000
+
+        // But we maybe still have invalid repetition combinations, like IIII. Let's make a draft...
+        // III: 3
+        // IIII (4 or more characters): invalid, 4 is "IV"
+        // V: 5
+        // VV: (2 or more characters): invalid, 10 is "X"
+        // XXX: 30
+        // XXXX (4 or more characters): invalid, 40 id "LX"
+        // L: 50
+        // LL (2 or more characters): invalid, 100 is "C"
+        // CCC: 300
+        // CCCC (4 or more characters): invalid, 400 is "ID"
+        // D: 500
+        // DD (2 or more characters): invalid, 1000 is "M"
+        // MMM: 3000
+        // MMMM (4 or more characters): invalid, 3999 is the bigger number that we accept
+        // 
+        // Now we will make a regex step by step to be more readable for every character
+        if (preg_match('/(I{4,})/', $romanNumber)) {
+            return false;
+        }
+        if (preg_match('/(V{2,})/', $romanNumber)) {
+            return false;
+        }
+        if (preg_match('/(X{4,})/', $romanNumber)) {
+            return false;
+        }
+        if (preg_match('/(L{2,})/', $romanNumber)) {
+            return false;
+        }
+        if (preg_match('/(C{4,})/', $romanNumber)) {
+            return false;
+        }
+        if (preg_match('/(D{2,})/', $romanNumber)) {
+            return false;
+        }
+        if (preg_match('/(M{4,})/', $romanNumber)) {
+            return false;
+        }
+
+        // But...
+        // If we still have invalid combinations repeated, like:
+        // XCXC
+        // Hum... we also need to filter
+        // Let's make a regex for every character o be more readable
+        // Remember, we already filtered another invalid cases, like IC
+
+        // For "I"
+        if (preg_match('/IV[\w]*IV/', $romanNumber)) {
+            return false;
+        }
+        if (preg_match('/IX[\w]*IX/', $romanNumber)) {
+            return false;
+        }
+
+        // For "V". "V" will not be as previous character of another character with a major value
+
+        // For "X"
+        if (preg_match('/XL[\w]*XL/', $romanNumber)) {
+            return false;
+        }
+        if (preg_match('/XC[\w]*XC/', $romanNumber)) {
+            return false;
+        }
+
+        // For "L". "L" will not be as previous character of another character with a major value
+
+        // For "C"
+        if (preg_match('/CD[\w]*CD/', $romanNumber)) {
+            return false;
+        }
+        if (preg_match('/CM[\w]*CM/', $romanNumber)) {
+            return false;
+        }
+
+        // For "D". "D" will not be as previous character of another character with a major value
+
+        // For "M". "M" is the major character
+
+        // Else we need to return true
+        return true;
+    }
+
+    /**
+     * Returns the setted roman number
      * 
      * @access public
      * 
      * @return int
      */
-    public function getRoman(): int {
-        return $this->roman;
+    public function getRomanNumber(): int {
+        return $this->romanNumber;
     }
 
     /**
@@ -153,6 +323,60 @@ class Roman {
      * @returns string
      */
     public function toDecimal(): string {
-        
+        $romanNumber = $this->getRoman();
+        $decimalNumber = 0;
+
+        // Lets start with the subtractions
+
+        // I
+        if (strpos($romanNumber, 'IV') > -1) {
+            $decimalNumber -= 4;
+            str_replace('IV', '', $romanNumber);
+        }
+        if (strpos($romanNumber, 'IX') > -1) {
+            $decimalNumber -= 9;
+            str_replace('IX', '', $romanNumber);
+        }
+
+        // V -> we can't have V as subtractor
+
+        // X
+        if (strpos($romanNumber, 'XL') > -1){
+            $decimalNumber -= 40;
+            str_replace('XL', '', $romanNumber);            
+        }
+        if (strpos($romanNumber, 'XC') > -1) {
+            $decimalNumber -= 90;
+            str_replace('XC', '', $romanNumber);
+        }
+
+        // L -> we can't have V as subtractor
+
+        // C
+        if (strpos($romanNumber, 'CD') > -1) {
+            $decimalNumber -= 400;
+        }
+        if (strpos($romanNumber, 'CM') > -1) {
+            $decimalNumber -= 900;
+        }
+
+        // Now we only need to count the charactes and map to these values
+        // Remember that we already removed the subtraction :)
+        // Because in some cases we can have a valid repetition of characters, like II (equals 2)
+        $characterValuesMaps = [
+            "I" => 1,
+            "V" => 5,
+            "X" => 10,
+            "L" => 50,
+            "C" => 100,
+            "D" => 500,
+            "M" => 1000,
+        ];
+
+        foreach ($characterValuesMaps as $character => $value) {
+            $decimalNumber += substr_count($romanNumber, $character) * $value;
+        }
+
+        return $decimalNumber;
     }
 }
