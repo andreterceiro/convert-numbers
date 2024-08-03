@@ -1,5 +1,6 @@
 <?php
-require_once("Roman.php");
+$path = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'libs';
+require_once($path . DIRECTORY_SEPARATOR . 'Roman.php');
 $romanNumbers = [
     'I',
     'II',
