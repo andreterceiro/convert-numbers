@@ -313,7 +313,7 @@ class Roman {
      * 
      * @return string
      */
-    public function getRomanNumber(): string {
+    public function getNumber(): string {
         return $this->romanNumber;
     }
 
@@ -326,7 +326,7 @@ class Roman {
      * @return string
      */
     public function toDecimal(): string {
-        $romanNumber = $this->getRomanNumber();
+        $romanNumber = $this->getNumber();
         $decimalNumber = 0;
 
         // Lets start with the subtractions
