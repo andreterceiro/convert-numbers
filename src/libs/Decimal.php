@@ -1,4 +1,5 @@
 <?php
+namespace Andreterceiro\libs;
 /**
  * Thinking...
  * 
@@ -185,7 +186,6 @@
  * 
  * Let's implement. After we will make some random unit tests...
  */
-namespace andreterceiro\libs;
 
 class Decimal {
     /**

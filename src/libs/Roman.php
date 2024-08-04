@@ -99,7 +99,7 @@
  * 
  * Let's start to implement
  */
-namespace andreterceiro\libs;
+namespace Andreterceiro\libs;
 
 class Roman {
     /**

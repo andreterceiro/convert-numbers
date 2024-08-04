@@ -1,4 +1,6 @@
 <?php
+namespace Andreterceiro\libs;
+
 class ViewManager {
     private $variables = [];
     private $errors = [];
