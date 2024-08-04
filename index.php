@@ -1,4 +1,5 @@
 <?php
+namespace andreterceiro;
 require_once('config.php');
 use andreterceiro\libs\Decimal;
 use andreterceiro\libs\Roman;
