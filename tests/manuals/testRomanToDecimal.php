@@ -1,6 +1,12 @@
 <?php
-$path = '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'libs';
+namespace tests\manuals;
+
+// @todo I need to fix the autoload
+$path = __DIR__  . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'libs';
 require_once($path . DIRECTORY_SEPARATOR . 'Roman.php');
+
+use libs\Roman;
+
 $romanNumbers = [
     'I',
     'II',
