@@ -185,6 +185,8 @@
  * 
  * Let's implement. After we will make some random unit tests...
  */
+namespace libs;
+
 class Decimal {
     /**
      * Number value
