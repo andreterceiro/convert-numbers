@@ -221,8 +221,8 @@ class Decimal {
     public function setNumber($decimalNumber): void {
         if (! $this->validatesNumber($decimalNumber)) {
             throw new InvalidArgumentException(
-                "O número decimal passado deve ser maior que zero, menor que 4000 e um inteiro" .
-                "(não fracionário nem contendo letras)"
+                "The received number needs to be major than 0 and minor than 400 and needs to be an integer" .
+                "(mustn't be a float and mustn't have to contains a letter)"
             );
         }
         $this->decimalNumber = $decimalNumber;
