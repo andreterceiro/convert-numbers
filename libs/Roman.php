@@ -112,9 +112,9 @@ class Roman {
      * Constructor
      * 
      * @access public
-     * 
+     *
      * @throws InvalidArgumentException Rethrows an exception if its receive an ivalid roman number
-     * 
+     *
      * @param string $romanNumber Reference roman number
      */
     function __construct(string $romanNumber) {
@@ -123,11 +123,11 @@ class Roman {
 
     /**
      * Validates (with another method) and sets the roman number
-     * 
+     *
      * @throws InvalidArgumentException If the received roman is not a valid roman number
-     * 
+     *
      * @access public
-     * 
+     *
      * @param string $romanNumber The roman number character to be setted
      *
      * @return void
@@ -135,7 +135,7 @@ class Roman {
     public function setNumber(string $romanNumber): void {
         $roman = strtoupper($romanNumber);
     
-        if (! $this->validatesRomanNumber($romanNumber)) {
+        if (! $this->validatesNumber($romanNumber)) {
             throw new InvalidArgumentException("$romanNumber is not a valid roman number");
         }
 
@@ -146,14 +146,14 @@ class Roman {
      * Returns true if the passed roman number is valid
      * 
      * Access private? We need to test. Ok, then test the constructor or the setRoman method
-     * 
+     *
      * @access private
-     * 
+     *
      * @param string $romanNumber The roman number character to be validated
      *
      * @return bool
      */
-    private function validatesRomanNumber(string $romanNumber): bool {
+    private function validatesNumber(string $romanNumber): bool {
         // We need only to accept valid characters
         if (preg_match('/[^IVXLCDM]/', $romanNumber)) {
             return false;
