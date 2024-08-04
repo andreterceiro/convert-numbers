@@ -185,7 +185,7 @@
  * 
  * Let's implement. After we will make some random unit tests...
  */
-namespace libs;
+namespace andreterceiro\libs;
 
 class Decimal {
     /**
@@ -200,6 +200,8 @@ class Decimal {
      * Constructor. Why don't we enforce the type of the number parameter as type hint? Because we
      * wanna the error be catched in another part of the code and an exception be throwed
      *
+     * @throws \InvalidArgumentException Rethrows an exception if its receive an ivalid decimal number
+     *
      * @access public
      *
      * @param int $number Reference decimal number
@@ -212,7 +214,7 @@ class Decimal {
      * Sets the decimal with a integer value. Why don't we enforce the type of the number parameter as type hint? Because we
      * wanna the error be catched in another part of the code and an exception be throwed
      *
-     * @throws InvalidArgumentException If the received roman is not a valid roman number
+     * @throws \InvalidArgumentException If the received roman is not a valid roman number
      *
      * @param int $number The number to be setted
      *
@@ -222,7 +224,7 @@ class Decimal {
      */
     public function setNumber($decimalNumber): void {
         if (! $this->validatesNumber($decimalNumber)) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 "The received number needs to be major than 0 and minor than 400 and needs to be an integer" .
                 "(mustn't be a float and mustn't have to contains a letter)"
             );

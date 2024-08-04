@@ -99,7 +99,7 @@
  * 
  * Let's start to implement
  */
-namespace libs;
+namespace andreterceiro\libs;
 
 class Roman {
     /**
@@ -112,10 +112,10 @@ class Roman {
 
     /**
      * Constructor
-     * 
+     *
      * @access public
      *
-     * @throws InvalidArgumentException Rethrows an exception if its receive an ivalid roman number
+     * @throws \InvalidArgumentException Rethrows an exception if its receive an ivalid roman number
      *
      * @param string $romanNumber Reference roman number
      */
@@ -126,7 +126,7 @@ class Roman {
     /**
      * Validates (with another method) and sets the roman number
      *
-     * @throws InvalidArgumentException If the received roman is not a valid roman number
+     * @throws \InvalidArgumentException If the received roman is not a valid roman number
      *
      * @access public
      *
@@ -138,7 +138,7 @@ class Roman {
         $roman = strtoupper($romanNumber);
     
         if (! $this->validatesNumber($romanNumber)) {
-            throw new InvalidArgumentException("$romanNumber is not a valid roman number");
+            throw new \InvalidArgumentException("$romanNumber is not a valid roman number");
         }
 
         $this->romanNumber = $romanNumber;
