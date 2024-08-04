@@ -192,55 +192,84 @@ class Decimal {
      * @var int
      * @access private
      */
-    private int $decimal;
+    private int $decimalNumber;
 
     /**
-     * Constructor
-     * 
+     * Constructor. Why don't we enforce the type of the number parameter as type hint? Because we
+     * wanna the error be catched in another part of the code and an exception be throwed
+     *
      * @access public
-     * 
-     * @param int $decimal Reference decimal number
+     *
+     * @param int $number Reference decimal number
      */
-    function __construct(int $decimal) {
-        $this->decimal = $decimal;
+    function __construct($decimalNumber) {
+        $this->setNumber($decimalNumber);
     }
 
     /**
-     * Sets the decimal with a integer value
+     * Sets the decimal with a integer value. Why don't we enforce the type of the number parameter as type hint? Because we
+     * wanna the error be catched in another part of the code and an exception be throwed
      *
-     * @param int $decimal
-     * 
+     * @throws InvalidArgumentException If the received roman is not a valid roman number
+     *
+     * @param int $number The number to be setted
+     *
      * @access public 
-     * 
+     *
      * @return void
      */
-    public function setNumber(int $decimal): void {
-        if ($decimal < 1) {
-            throw new RangeException("The passed decimal needs to be greater than 0");
+    public function setNumber($decimalNumber): void {
+        if (! $this->validatesNumber($decimalNumber)) {
+            throw new InvalidArgumentException(
+                "O número decimal passado deve ser maior que zero, menor que 4000 e um inteiro" .
+                "(não fracionário nem contendo letras)"
+            );
         }
-        if ($decimal > 3999) {
-            throw new RangeException("The passed decimal needs to be lower than 4000");
+        $this->decimalNumber = $decimalNumber;
+    }
+
+    /**
+     * Returns true if the passed decimal number is valid
+     *
+     * Why not private? Because if we have the number with a string, we can't instantiate in this class
+     *
+     * @access public
+     *
+     * @param string $decimalNumber The decimal number character to be validated
+     *
+     * @return bool
+     */
+    public static function validatesNumber($decimalNumber) {
+        if ($decimalNumber < 1 || $decimalNumber > 3999) {
+            return false;
         }
-        $this->decimal = $decimal;
+
+        // Verifying if the passed number through the form (as string) is really an integer
+        // not a string with a integer or a float
+        if ((int) $decimalNumber != $decimalNumber) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
      * Returns the setted decimal
-     * 
+     *
      * @access public
-     * 
+     *
      * @return int
      */
     public function getNumber(): int {
-        return $this->decimal;
+        return $this->decimalNumber;
     }
 
     /**
      * Converts the setted decimal to roman
-     * 
+     *
      * We do not need to throw an exception here because we know that the setted decimal number
      * is a number that we can convert
-     * 
+     *
      * @returns string
      */
     public function toRoman(): string {
