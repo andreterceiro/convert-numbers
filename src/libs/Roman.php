@@ -283,20 +283,21 @@ class Roman {
 
         // For "X"
         // We need to think in "XL[X|XX|XXX]IX" = 49 and XCIX[XC|X|XX|XXX]IX
-        if (preg_match('/XL^[X]*X/', $romanNumber)) {
+        if (preg_match('/XL[VXLCDM]*X/', $romanNumber)) {
             return false;
         }
-        if (preg_match('/XC[\w]*X/', $romanNumber)) {
+        if (preg_match('/XC[VXLCDM]*X/', $romanNumber)) {
             return false;
         }
 
         // For "L". "L" will not be as previous character of another character with a major value
 
         // For "C"
-        if (preg_match('/CD[\w]*C/', $romanNumber)) {
+        if (preg_match('/CD[IVLDM]*C/', $romanNumber)) {
             return false;
         }
-        if (preg_match('/CM[\w]*C/', $romanNumber)) {
+
+        if (preg_match('/CM[IVLDM]*C/', $romanNumber)) {
             return false;
         }
 
