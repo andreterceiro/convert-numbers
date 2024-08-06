@@ -188,8 +188,6 @@ class Roman {
             return false;
         }
 
-        //echo "HERE 2";
-
         // Now we need do verify the "L" character
         if ((substr_count($romanNumber, 'LC') > 0) || (substr_count($romanNumber, 'LD') > 0) || (substr_count($romanNumber, 'LM') > 0)) {
             return false;
