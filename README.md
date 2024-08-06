@@ -30,3 +30,11 @@ Then you can use a textbox and click at the button in this right position. Ilust
 Case you insert a wrong string to convert you will see an error:
 ![example 1 error](docs/images/example-1-error.png)
 
+
+# PHPUnit tests
+
+Please run through this command in the root directory:
+
+```
+composer test
+```
