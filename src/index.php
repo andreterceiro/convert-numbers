@@ -5,7 +5,7 @@ require_once('config.php');
 use andreterceiro\libs\Decimal;
 use andreterceiro\libs\Roman;
 
-if (isset('cmdEnviar', $_POST)) {
+if (isset($_POST['cmdEnviar'])) {
     if ($_POST['cmdEnviar'] == 'Converter para romano') {
         try {
             require_once('libs/Decimal.php');
