@@ -38,3 +38,12 @@ Please run through this command in the root directory:
 ```
 composer test
 ```
+
+
+# Errors
+
+If you face an autoload error, please run the following command:
+
+```
+composer dump-autoload -o
+```
