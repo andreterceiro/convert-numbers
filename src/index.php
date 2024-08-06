@@ -2,13 +2,12 @@
 namespace Andreterceiro;
 require_once(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php' );
 require_once('config.php');
-use andreterceiro\libs\Decimal;
-use andreterceiro\libs\Roman;
+use Andreterceiro\libs\Decimal;
+use Andreterceiro\libs\Roman;
 
 if (isset($_POST['cmdEnviar'])) {
     if ($_POST['cmdEnviar'] == 'Converter para romano') {
         try {
-            require_once('libs/Decimal.php');
             $romanConversor = new Decimal($_POST['decimal']);
             $viewManager->set(
                 'result',
@@ -24,7 +23,6 @@ if (isset($_POST['cmdEnviar'])) {
         }
     } elseif ($_POST['cmdEnviar'] == 'Converter para decimal') {
         try {
-            require_once('libs/Roman.php');
             $romanConversor = new Roman($_POST['roman']);
             $viewManager->set(
                 'result',
