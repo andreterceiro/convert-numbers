@@ -5,7 +5,18 @@
 
 # Install
 
-You need don't anything special to install. You will need only of PHP 7+.
+You need don't anything special to install, only Composer. 
+
+[Download and installation instructions of Composer](https://getcomposer.org/download/).
+
+After install Composer please run the following:
+
+```
+composer install
+```
+
+
+You will need only of PHP 7+.
 
 
 # Run
