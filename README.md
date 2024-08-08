@@ -1,8 +1,3 @@
-# General
-
-**OBS:** In progress
-
-
 # Install
 
 You need don't anything special to install, only Composer. 
